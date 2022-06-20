@@ -1,15 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using EcAPI.Entity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
 using EcAPI.Entities;
 using EcAPI.Interfaces;
 using System.Data;
 using AutoMapper;
 using EcAPI.Entity.OrderAggregrate;
+using EcAPI.Model;
 
 namespace EcAPI.Repository
 {
@@ -19,7 +15,7 @@ namespace EcAPI.Repository
         public readonly AppIdentityDbContext _context;
         public readonly IMapper _mapper;
         public readonly IConfiguration _config;
-        public ProductRepository(IConfiguration config,AppIdentityDbContext context, IMapper mapper)
+        public ProductRepository(IConfiguration config, AppIdentityDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
@@ -58,7 +54,7 @@ namespace EcAPI.Repository
             .Include(x => x.ProductType).Include(x => x.ProductBrand)
             .Where(s =>
              s.Name.ToLower().Contains(searchItem.ToLower()) ||
-             s.Price.ToString() == searchItem||
+             s.Price.ToString() == searchItem ||
              s.Description.ToLower().Contains(searchItem.ToLower())).ToListAsync();
             //Where(t => t.Contains(searchItem));
             return _mapper.Map<List<Product>, List<ProductToReturnDTO>>(response);
@@ -105,13 +101,155 @@ namespace EcAPI.Repository
             var response = await _context.Products.Where(x => x.Id == id)
             .Include(x => x.ProductType)
             .Include(x => x.ProductBrand).FirstAsync();
-            response.PictureUrl=_config["BaseUrl"]+response.PictureUrl;
+            response.PictureUrl = _config["BaseUrl"] + response.PictureUrl;
             return _mapper.Map<Product, ProductToReturnDTO>(response);
         }
         public async Task<DeliveryMethod> CreateOrder(int id)
         {
             var response = await _context.DeliveryMethods.Where(x => x.Id == id).FirstAsync();
             return _mapper.Map<DeliveryMethod, DeliveryMethod>(response);
+        }
+
+        public ResponseModel AddOrUpdateBrands(ProductBrand brands)
+        {
+            ResponseModel response = new ResponseModel();
+            try
+            {
+                if (brands.Id == 0)
+                {
+                    _context.ProductBrands.Add(brands);
+                    _context.SaveChanges();
+                    response.StatusCode = 200;
+                    response.Message = "The brand added successfully";
+                }
+                else
+                {
+                    var entity = _context.ProductBrands.FirstOrDefault(x => x.Id == brands.Id);
+                    entity.Name = brands.Name;
+                    _context.SaveChanges();
+                    response.StatusCode = 200;
+                    response.Message = "The brand updated successfully";
+                }
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = 401;
+                response.Message = ex.ToString();
+            }
+            return response;
+        }
+        public ResponseModel DeleteBrand(int id)
+        {
+            ResponseModel response = new ResponseModel();
+            try
+            {
+                    var entity = _context.ProductBrands.FirstOrDefault(x => x.Id == id);
+                    _context.Remove(entity);
+                    _context.SaveChanges();
+                    response.StatusCode = 200;
+                    response.Message = "The brand deleted successfully";
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = 401;
+                response.Message = ex.ToString();
+            }
+            return response;
+        }
+        public ResponseModel AddOrUpdateProductType(ProductType type)
+        {
+            ResponseModel response = new ResponseModel();
+            try
+            {
+                if (type.Id == 0)
+                {
+                    _context.ProductType.Add(type);
+                    _context.SaveChanges();
+                    response.StatusCode = 200;
+                    response.Message = "The type added successfully";
+                }
+                else
+                {
+                    var entity = _context.ProductType.FirstOrDefault(x => x.Id == type.Id);
+                    entity.Name = type.Name;
+                    _context.SaveChanges();
+                    response.StatusCode = 200;
+                    response.Message = "The type updated successfully";
+                }
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = 401;
+                response.Message = ex.ToString();
+            }
+            return response;
+        }
+        public ResponseModel DeleteProductType(int id)
+        {
+            ResponseModel response = new ResponseModel();
+            try
+            {
+                    var entity = _context.ProductType.FirstOrDefault(x => x.Id == id);
+                    _context.Remove(entity);
+                    _context.SaveChanges();
+                    response.StatusCode = 200;
+                    response.Message = "The product type deleted successfully";
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = 401;
+                response.Message = ex.ToString();
+            }
+            return response;
+        }
+        public ResponseModel AddOrUpdateDeliveryMethod(DeliveryMethod dlMethod)
+        {
+            ResponseModel response = new ResponseModel();
+            try
+            {
+                if (dlMethod.Id == 0)
+                {
+                    _context.DeliveryMethods.Add(dlMethod);
+                    _context.SaveChanges();
+                    response.StatusCode = 200;
+                    response.Message = "The delivery method added successfully";
+                }
+                else
+                {
+                    var entity = _context.DeliveryMethods.FirstOrDefault(x => x.Id == dlMethod.Id);
+                    entity.DeliveryTime = dlMethod.DeliveryTime;
+                    entity.ShortName=dlMethod.ShortName;
+                    entity.Description=dlMethod.Description;
+                    entity.Price=dlMethod.Price;
+                    _context.SaveChanges();
+                    response.StatusCode = 200;
+                    response.Message = "The delivery method updated successfully";
+                }
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = 401;
+                response.Message = ex.ToString();
+            }
+            return response;
+        }
+        public ResponseModel DeleteDeliveryMethod(int id)
+        {
+            ResponseModel response = new ResponseModel();
+            try
+            {
+                    var entity = _context.DeliveryMethods.FirstOrDefault(x => x.Id == id);
+                    _context.Remove(entity);
+                    _context.SaveChanges();
+                    response.StatusCode = 200;
+                    response.Message = "The delivery methood deleted successfully";
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = 401;
+                response.Message = ex.ToString();
+            }
+            return response;
         }
     }
 }

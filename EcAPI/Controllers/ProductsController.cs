@@ -9,6 +9,8 @@ using EcAPI.Interfaces;
 using EcAPI.Helpers;
 using EcAPI.Specification;
 using AutoMapper;
+using EcAPI.Model;
+using EcAPI.Entity.OrderAggregrate;
 
 namespace EcAPI.Controllers
 {
@@ -22,7 +24,7 @@ namespace EcAPI.Controllers
         private readonly IGenericRepository<Product> _productsRepo;
         public readonly IConfiguration _config;
 
-        public ProductsController(IConfiguration config,IGenericRepository<Product> productsRepo,IProductRepository productRepos)
+        public ProductsController(IConfiguration config, IGenericRepository<Product> productsRepo, IProductRepository productRepos)
         {
             // _context = context;
             _productRepos = productRepos;
@@ -45,23 +47,23 @@ namespace EcAPI.Controllers
             var countSpec = new ProductWithFiltersForCountSpecification(productParams);
             var totalItems = await _productsRepo.CountAsync(countSpec);
             var products = await _productsRepo.ListAsync(spec);
-            List<ProductToReturnDTO> productList=new List<ProductToReturnDTO>();
+            List<ProductToReturnDTO> productList = new List<ProductToReturnDTO>();
             string path2 = Directory.GetCurrentDirectory();
             path2 = path2.Replace("\\", "/");
 
             foreach (var product in products)
-			{
-                ProductToReturnDTO prodList=new ProductToReturnDTO();
+            {
+                ProductToReturnDTO prodList = new ProductToReturnDTO();
                 prodList.Id = product.Id;
                 prodList.Name = product.Name;
-                prodList.Description = product.Description; 
+                prodList.Description = product.Description;
                 prodList.Price = product.Price;
                 prodList.PictureUrl = _config["BaseUrl"] + product.PictureUrl;
                 prodList.ProductBrand = product.ProductBrand.Name;
-                prodList.ProductType= product.ProductType.Name;
+                prodList.ProductType = product.ProductType.Name;
                 productList.Add(prodList);
-			}
-           // var data = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDTO>>(products);
+            }
+            // var data = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDTO>>(products);
             return Ok(new Pagination<ProductToReturnDTO>(productParams.PageIndex, productParams.PageSize, totalItems,
                 productList));
         }
@@ -95,11 +97,48 @@ namespace EcAPI.Controllers
         {
             return _productRepos.GetProductTypes();
         }
+
         [HttpGet]
         [Route("GetProductById/{id}")]
         public Task<ProductToReturnDTO> GetProductById(int id)
         {
             return _productRepos.GetProductById(id);
+        }
+        [HttpPost]
+        [Route("AddOrUpdateBrands")]
+        public ResponseModel AddOrUpdateBrands(ProductBrand brands)
+        {
+            return _productRepos.AddOrUpdateBrands(brands);
+        }
+        [HttpGet]
+        [Route("DeleteBrand")]
+        public ResponseModel DeleteBrand(int id)
+        {
+            return _productRepos.DeleteBrand(id);
+        }
+        [HttpPost]
+        [Route("AddOrUpdateProductType")]
+        public ResponseModel AddOrUpdateProductType(ProductType type)
+        {
+            return _productRepos.AddOrUpdateProductType(type);
+        }
+        [HttpGet]
+        [Route("DeleteProductType")]
+        public ResponseModel DeleteProductType(int id)
+        {
+            return _productRepos.DeleteProductType(id);
+        }
+        [HttpPost]
+        [Route("AddOrUpdateDeliveryMethod")]
+        public ResponseModel AddOrUpdateDeliveryMethod(DeliveryMethod dlMethod)
+        {
+            return _productRepos.AddOrUpdateDeliveryMethod(dlMethod);
+        }
+         [HttpGet]
+        [Route("DeleteDeliveryMethod")]
+        public ResponseModel DeleteDeliveryMethod(int id)
+        {
+            return _productRepos.DeleteDeliveryMethod(id);
         }
     }
 }

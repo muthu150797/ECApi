@@ -7841,11 +7841,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\muthumani\\Project\\E-Comerce\\EcAPI\\EcAPI\\EcAPI.csproj",
+      "projectUniqueName": "D:\\muthumani\\GITProject\\ECOMApi\\EcAPI\\EcAPI.csproj",
       "projectName": "EcAPI",
-      "projectPath": "D:\\muthumani\\Project\\E-Comerce\\EcAPI\\EcAPI\\EcAPI.csproj",
+      "projectPath": "D:\\muthumani\\GITProject\\ECOMApi\\EcAPI\\EcAPI.csproj",
       "packagesPath": "C:\\Users\\moonwhite\\.nuget\\packages\\",
-      "outputPath": "D:\\muthumani\\Project\\E-Comerce\\EcAPI\\EcAPI\\obj\\",
+      "outputPath": "D:\\muthumani\\GITProject\\ECOMApi\\EcAPI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
