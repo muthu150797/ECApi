@@ -18,7 +18,7 @@ namespace EcAPI.Interfaces
         Task<IReadOnlyList<ProductToReturnDTO>> SearchProducts(string searchItem);
         Task<List<ProductBrand>> GetProductBrands();
         Task<List<ProductType>> GetProductTypes();
-        public  Task<DeliveryMethod> CreateOrder(int id);
+        public Task<DeliveryMethod> CreateOrder(int id);
         Task<ProductToReturnDTO> GetProductById(int id);
         ResponseModel DeleteBrand(int id);
         ResponseModel AddOrUpdateProductType(ProductType type);
@@ -26,8 +26,10 @@ namespace EcAPI.Interfaces
         ResponseModel AddOrUpdateDeliveryMethod(DeliveryMethod dlMethod);
         ResponseModel DeleteDeliveryMethod(int id);
         ResponseModel AddOrUpdateBrands(ProductBrand brands);
+        ResponseModel AddOrUpdateProduct(List<Product> product);
+        ResponseModel DeleteProduct(int id);
         Task<IReadOnlyList<ProductToReturnDTO>> SortProductByPrice(string sortType);
-        Task<IReadOnlyList<ProductToReturnDTO>> FilterProducts(int filterType,int productTypeId,int brandId);
+        Task<IReadOnlyList<ProductToReturnDTO>> FilterProducts(int filterType, int productTypeId, int brandId);
 
     }
 }

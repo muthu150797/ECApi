@@ -134,11 +134,23 @@ namespace EcAPI.Controllers
         {
             return _productRepos.AddOrUpdateDeliveryMethod(dlMethod);
         }
-         [HttpGet]
+        [HttpGet]
         [Route("DeleteDeliveryMethod")]
         public ResponseModel DeleteDeliveryMethod(int id)
         {
             return _productRepos.DeleteDeliveryMethod(id);
+        }
+        [HttpPost]
+        [Route("AddOrUpdateProduct")]
+        public ResponseModel AddOrUpdateProduct(List<Product> product)
+        {
+            return _productRepos.AddOrUpdateProduct(product);
+        }
+        [HttpGet]
+        [Route("DeleteProduct")]
+        public ResponseModel DeleteProduct(int id)
+        {
+            return _productRepos.DeleteProduct(id);
         }
     }
 }

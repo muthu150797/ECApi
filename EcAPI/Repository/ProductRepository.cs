@@ -143,11 +143,11 @@ namespace EcAPI.Repository
             ResponseModel response = new ResponseModel();
             try
             {
-                    var entity = _context.ProductBrands.FirstOrDefault(x => x.Id == id);
-                    _context.Remove(entity);
-                    _context.SaveChanges();
-                    response.StatusCode = 200;
-                    response.Message = "The brand deleted successfully";
+                var entity = _context.ProductBrands.FirstOrDefault(x => x.Id == id);
+                _context.Remove(entity);
+                _context.SaveChanges();
+                response.StatusCode = 200;
+                response.Message = "The brand deleted successfully";
             }
             catch (Exception ex)
             {
@@ -189,11 +189,11 @@ namespace EcAPI.Repository
             ResponseModel response = new ResponseModel();
             try
             {
-                    var entity = _context.ProductType.FirstOrDefault(x => x.Id == id);
-                    _context.Remove(entity);
-                    _context.SaveChanges();
-                    response.StatusCode = 200;
-                    response.Message = "The product type deleted successfully";
+                var entity = _context.ProductType.FirstOrDefault(x => x.Id == id);
+                _context.Remove(entity);
+                _context.SaveChanges();
+                response.StatusCode = 200;
+                response.Message = "The product type deleted successfully";
             }
             catch (Exception ex)
             {
@@ -218,9 +218,9 @@ namespace EcAPI.Repository
                 {
                     var entity = _context.DeliveryMethods.FirstOrDefault(x => x.Id == dlMethod.Id);
                     entity.DeliveryTime = dlMethod.DeliveryTime;
-                    entity.ShortName=dlMethod.ShortName;
-                    entity.Description=dlMethod.Description;
-                    entity.Price=dlMethod.Price;
+                    entity.ShortName = dlMethod.ShortName;
+                    entity.Description = dlMethod.Description;
+                    entity.Price = dlMethod.Price;
                     _context.SaveChanges();
                     response.StatusCode = 200;
                     response.Message = "The delivery method updated successfully";
@@ -238,11 +238,65 @@ namespace EcAPI.Repository
             ResponseModel response = new ResponseModel();
             try
             {
-                    var entity = _context.DeliveryMethods.FirstOrDefault(x => x.Id == id);
-                    _context.Remove(entity);
-                    _context.SaveChanges();
-                    response.StatusCode = 200;
-                    response.Message = "The delivery methood deleted successfully";
+                var entity = _context.DeliveryMethods.FirstOrDefault(x => x.Id == id);
+                _context.Remove(entity);
+                _context.SaveChanges();
+                response.StatusCode = 200;
+                response.Message = "The delivery method deleted successfully";
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = 401;
+                response.Message = ex.ToString();
+            }
+            return response;
+        }
+        public ResponseModel AddOrUpdateProduct(List<Product> product)
+        {
+            ResponseModel response = new ResponseModel();
+            try
+            {
+                foreach (var item in product)
+                {
+                    if (item.Id == 0)
+                    {
+                        _context.Products.Add(item);
+                        response.StatusCode = 200;
+                        response.Message = "The products added successfully";
+                    }
+                    else
+                    {
+                        var entity = _context.Products.FirstOrDefault(x => x.Id == item.Id);
+                        entity.Name = item.Name;
+                        entity.Price = item.Price;
+                        entity.Description = item.Description;
+                        entity.PictureUrl = item.PictureUrl;
+                        entity.ProductBrandId = item.ProductBrandId;
+                        entity.ProductTypeId = item.ProductTypeId;
+                        response.StatusCode = 200;
+                        response.Message = "The product updated successfully";
+                    }
+                }
+                _context.SaveChanges();
+
+            }
+            catch (Exception ex)
+            {
+                response.StatusCode = 401;
+                response.Message = ex.ToString();
+            }
+            return response;
+        }
+        public ResponseModel DeleteProduct(int id)
+        {
+            ResponseModel response = new ResponseModel();
+            try
+            {
+                var entity = _context.Products.FirstOrDefault(x => x.Id == id);
+                _context.Remove(entity);
+                _context.SaveChanges();
+                response.StatusCode = 200;
+                response.Message = "The product deleted successfully";
             }
             catch (Exception ex)
             {
