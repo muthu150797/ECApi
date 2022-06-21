@@ -109,7 +109,7 @@ namespace EcAPI.Controllers
 			List<ProductItmeOrdered> ItemList =new List<ProductItmeOrdered>();
 			foreach (var items in orderItems)
 			{
-				items.ItmeOrdered.PictureUrl= _config["BaseUrl"] + items.ItmeOrdered.PictureUrl;
+				//items.ItmeOrdered.PictureUrl=  items.ItmeOrdered.PictureUrl;
 				items.Id = 0;
 			}
 			var order2 = new OrderToReturnDto()

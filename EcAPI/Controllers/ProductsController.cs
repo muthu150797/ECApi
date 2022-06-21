@@ -58,7 +58,7 @@ namespace EcAPI.Controllers
                 prodList.Name = product.Name;
                 prodList.Description = product.Description;
                 prodList.Price = product.Price;
-                prodList.PictureUrl = _config["BaseUrl"] + product.PictureUrl;
+                 prodList.PictureUrl = /* _config["BaseUrl"]*/  product.PictureUrl;
                 prodList.ProductBrand = product.ProductBrand.Name;
                 prodList.ProductType = product.ProductType.Name;
                 productList.Add(prodList);

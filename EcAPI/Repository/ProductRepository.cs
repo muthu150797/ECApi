@@ -98,11 +98,18 @@ namespace EcAPI.Repository
         }
         public async Task<ProductToReturnDTO> GetProductById(int id)
         {
-            var response = await _context.Products.Where(x => x.Id == id)
-            .Include(x => x.ProductType)
-            .Include(x => x.ProductBrand).FirstAsync();
-            response.PictureUrl = _config["BaseUrl"] + response.PictureUrl;
-            return _mapper.Map<Product, ProductToReturnDTO>(response);
+            try
+            {
+                var response = await _context.Products.Where(x => x.Id == id)
+                    .Include(x => x.ProductType)
+                    .Include(x => x.ProductBrand).FirstAsync();
+                // response.PictureUrl =  response.PictureUrl;
+                return _mapper.Map<Product, ProductToReturnDTO>(response);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
         public async Task<DeliveryMethod> CreateOrder(int id)
         {
