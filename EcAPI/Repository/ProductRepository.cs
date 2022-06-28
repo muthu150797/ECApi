@@ -312,5 +312,36 @@ namespace EcAPI.Repository
             }
             return response;
         }
+        public FileUploadModel Upload(List<IFormFile> files)
+        { 
+             FileUploadModel response=new FileUploadModel();
+           List<string> allPicPaths=new List<string>();
+            var directory = Directory.GetCurrentDirectory().Replace("\\", "/");
+            try
+            {
+                foreach (var file in files)
+                {
+
+                    string path = directory + "/Content/images/products/" + file.FileName;
+                    using (var fileStream = new FileStream(path, FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                        response.fileUrls +=path;
+                        allPicPaths.Add(path);
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+            return response;
+            }
+            return response;
+        }
+
+    }
+
+    public class FileUploadModel
+    {
+     public string fileUrls{get;set;}
     }
 }

@@ -11,6 +11,7 @@ using EcAPI.Specification;
 using AutoMapper;
 using EcAPI.Model;
 using EcAPI.Entity.OrderAggregrate;
+using EcAPI.Repository;
 
 namespace EcAPI.Controllers
 {
@@ -58,7 +59,7 @@ namespace EcAPI.Controllers
                 prodList.Name = product.Name;
                 prodList.Description = product.Description;
                 prodList.Price = product.Price;
-                 prodList.PictureUrl = /* _config["BaseUrl"]*/  product.PictureUrl;
+                prodList.PictureUrl = /* _config["BaseUrl"]*/  product.PictureUrl;
                 prodList.ProductBrand = product.ProductBrand.Name;
                 prodList.ProductType = product.ProductType.Name;
                 productList.Add(prodList);
@@ -151,6 +152,12 @@ namespace EcAPI.Controllers
         public ResponseModel DeleteProduct(int id)
         {
             return _productRepos.DeleteProduct(id);
+        }
+        [HttpPost]
+        [Route("Upload")]
+        public FileUploadModel Upload(List<IFormFile> files)
+        {
+            return _productRepos.Upload(files);
         }
     }
 }

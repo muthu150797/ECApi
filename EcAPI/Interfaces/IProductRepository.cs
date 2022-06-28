@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using EcAPI.Entity.OrderAggregrate;
 using EcAPI.Model;
+using EcAPI.Repository;
 
 namespace EcAPI.Interfaces
 {
@@ -28,6 +29,7 @@ namespace EcAPI.Interfaces
         ResponseModel AddOrUpdateBrands(ProductBrand brands);
         ResponseModel AddOrUpdateProduct(List<Product> product);
         ResponseModel DeleteProduct(int id);
+         FileUploadModel Upload(List<IFormFile> files);
         Task<IReadOnlyList<ProductToReturnDTO>> SortProductByPrice(string sortType);
         Task<IReadOnlyList<ProductToReturnDTO>> FilterProducts(int filterType, int productTypeId, int brandId);
 
