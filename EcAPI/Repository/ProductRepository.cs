@@ -326,7 +326,7 @@ namespace EcAPI.Repository
                     using (var fileStream = new FileStream(path, FileMode.Create))
                     {
                         file.CopyTo(fileStream);
-                        response.fileUrls +=path;
+                        response.fileUrls +="Content/images/products/" + file.FileName;
                         allPicPaths.Add(path);
                     }
                 }
