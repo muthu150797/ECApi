@@ -12,8 +12,6 @@ using AutoMapper;
 using EcAPI.Helpers;
 using Microsoft.Extensions.DependencyInjection;
 using EcAPI.Interfaces.Core.Interfaces;
-using EcAPI.Repository;
-
 namespace EcAPI.Helpers
 {
     public static class ServicesExtensions
@@ -21,10 +19,14 @@ namespace EcAPI.Helpers
 
         public static void AddMyLibraryServices(this IServiceCollection services)
         {
-
+                  //Repository
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IVendorRepository, VendorRepository>();
+
             services.AddScoped<IUserRepository, UserRepository>();
+
+            //services
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IOrderService, OrderService>();
