@@ -29,7 +29,7 @@ namespace EcAPI.Entity.OrderAggregrate
         public IReadOnlyList<OrderItem> OrderItems { get; set; }
         public decimal Subtotal { get; set; }
         //after update dp start
-        public int DeliveryMethodId { get; set; }
+         public int DeliveryMethodId { get; set; }
         //public DeliveryMethod DeliveryMethods { get;set; }  
 
         //end

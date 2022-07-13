@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EcAPI.Migrations
 {
-    public partial class MyMigrations : Migration
+    public partial class MyFirstMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -90,6 +90,25 @@ namespace EcAPI.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProductType", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "VendorAddress",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    FirstName = table.Column<string>(type: "TEXT", nullable: true),
+                    LastName = table.Column<string>(type: "TEXT", nullable: true),
+                    Street = table.Column<string>(type: "TEXT", nullable: true),
+                    State = table.Column<string>(type: "TEXT", nullable: true),
+                    City = table.Column<string>(type: "TEXT", nullable: true),
+                    ZipCode = table.Column<string>(type: "TEXT", nullable: true),
+                    VendorId = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VendorAddress", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -237,8 +256,8 @@ namespace EcAPI.Migrations
                     ShipToAddress_State = table.Column<string>(type: "TEXT", nullable: true),
                     ShipToAddress_City = table.Column<string>(type: "TEXT", nullable: true),
                     ShipToAddress_ZipCode = table.Column<string>(type: "TEXT", nullable: true),
-                    DeliveryMethodId = table.Column<int>(type: "INTEGER", nullable: true),
                     Subtotal = table.Column<decimal>(type: "TEXT", nullable: false),
+                    DeliveryMethodId = table.Column<int>(type: "INTEGER", nullable: false),
                     Status = table.Column<string>(type: "TEXT", nullable: false),
                     PaymentIntentId = table.Column<string>(type: "TEXT", nullable: true),
                     PaymentId = table.Column<string>(type: "TEXT", nullable: true)
@@ -250,7 +269,8 @@ namespace EcAPI.Migrations
                         name: "FK_Orders_DeliveryMethods_DeliveryMethodId",
                         column: x => x.DeliveryMethodId,
                         principalTable: "DeliveryMethods",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -262,6 +282,7 @@ namespace EcAPI.Migrations
                     Name = table.Column<string>(type: "TEXT", nullable: true),
                     Price = table.Column<double>(type: "REAL", nullable: false),
                     PictureUrl = table.Column<string>(type: "TEXT", nullable: true),
+                    VendorId = table.Column<string>(type: "TEXT", nullable: true),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
                     ProductTypeId = table.Column<int>(type: "INTEGER", nullable: false),
                     ProductBrandId = table.Column<int>(type: "INTEGER", nullable: false)
@@ -284,17 +305,42 @@ namespace EcAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Vendors",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    Email = table.Column<string>(type: "TEXT", nullable: true),
+                    Active = table.Column<int>(type: "INTEGER", nullable: false),
+                    AccountNumber = table.Column<string>(type: "TEXT", nullable: true),
+                    IFSC = table.Column<string>(type: "TEXT", nullable: true),
+                    Branch = table.Column<string>(type: "TEXT", nullable: true),
+                    Mobile = table.Column<string>(type: "TEXT", nullable: true),
+                    VendorAddressId = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Vendors", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Vendors_VendorAddress_VendorAddressId",
+                        column: x => x.VendorAddressId,
+                        principalTable: "VendorAddress",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "OrderItems",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    OrderId = table.Column<int>(type: "INTEGER", nullable: false),
                     ItmeOrdered_ProductItemId = table.Column<int>(type: "INTEGER", nullable: true),
                     ItmeOrdered_ProductName = table.Column<string>(type: "TEXT", nullable: true),
                     ItmeOrdered_PictureUrl = table.Column<string>(type: "TEXT", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Quantity = table.Column<int>(type: "INTEGER", nullable: false),
-                    OrderId = table.Column<int>(type: "INTEGER", nullable: true)
+                    Quantity = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -369,6 +415,11 @@ namespace EcAPI.Migrations
                 name: "IX_Products_ProductTypeId",
                 table: "Products",
                 column: "ProductTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Vendors_VendorAddressId",
+                table: "Vendors",
+                column: "VendorAddressId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -398,6 +449,9 @@ namespace EcAPI.Migrations
                 name: "Products");
 
             migrationBuilder.DropTable(
+                name: "Vendors");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -411,6 +465,9 @@ namespace EcAPI.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProductType");
+
+            migrationBuilder.DropTable(
+                name: "VendorAddress");
 
             migrationBuilder.DropTable(
                 name: "DeliveryMethods");

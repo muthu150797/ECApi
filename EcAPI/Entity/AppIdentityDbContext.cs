@@ -11,7 +11,7 @@ namespace EcAPI.Entity
 {
     public class AppIdentityDbContext : IdentityDbContext<AppUser>
     {
-        
+
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductBrand> ProductBrands { get; set; }
         public DbSet<ProductType> ProductType { get; set; }
@@ -19,7 +19,7 @@ namespace EcAPI.Entity
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Address> Address { get; set; }
         public DbSet<DeliveryMethod> DeliveryMethods { get; set; }
-
+        public DbSet<Vendor> Vendors { get; set; }
         public AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options) : base(options)
         {
 
@@ -30,7 +30,6 @@ namespace EcAPI.Entity
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             modelBuilder.Entity<Product>().Property(e => e.Price).HasConversion<double>();
             // modelBuilder.Entity<Order>().HasKey(c => new { c.Id});
-
         }
     }
 }

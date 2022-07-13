@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\muthumani\\Project\\E-Comerce\\EcAPI\\Infrastructure\\Infrastructure.csproj": {}
+    "D:\\muthumani\\GITProject\\ECOMApi\\Infrastructure\\Infrastructure.csproj": {}
   },
   "projects": {
-    "D:\\muthumani\\Project\\E-Comerce\\EcAPI\\Infrastructure\\Infrastructure.csproj": {
+    "D:\\muthumani\\GITProject\\ECOMApi\\Infrastructure\\Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\muthumani\\Project\\E-Comerce\\EcAPI\\Infrastructure\\Infrastructure.csproj",
+        "projectUniqueName": "D:\\muthumani\\GITProject\\ECOMApi\\Infrastructure\\Infrastructure.csproj",
         "projectName": "Infrastructure",
-        "projectPath": "D:\\muthumani\\Project\\E-Comerce\\EcAPI\\Infrastructure\\Infrastructure.csproj",
+        "projectPath": "D:\\muthumani\\GITProject\\ECOMApi\\Infrastructure\\Infrastructure.csproj",
         "packagesPath": "C:\\Users\\moonwhite\\.nuget\\packages\\",
-        "outputPath": "D:\\muthumani\\Project\\E-Comerce\\EcAPI\\Infrastructure\\obj\\",
+        "outputPath": "D:\\muthumani\\GITProject\\ECOMApi\\Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

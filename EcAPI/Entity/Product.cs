@@ -12,6 +12,7 @@ namespace EcAPI.Entity
         public string Name { get; set; }
         public decimal Price { get; set; }
         public string PictureUrl { get; set; }
+        public string VendorId { get; set; }
         public string Description { get; set; }
         public ProductType ProductType { get; set; }
         public int ProductTypeId { get; set; }

@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EcAPI.Migrations
 {
     [DbContext(typeof(AppIdentityDbContext))]
-    [Migration("20220616100254_MyMigrations")]
-    partial class MyMigrations
+    [Migration("20220713081127_MyFirstMigration")]
+    partial class MyFirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -157,7 +157,7 @@ namespace EcAPI.Migrations
                     b.Property<string>("BuyerEmail")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("DeliveryMethodId")
+                    b.Property<int>("DeliveryMethodId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTimeOffset>("OrderDate")
@@ -189,7 +189,7 @@ namespace EcAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("OrderId")
+                    b.Property<int>("OrderId")
                         .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Price")
@@ -229,6 +229,9 @@ namespace EcAPI.Migrations
                     b.Property<int>("ProductTypeId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("VendorId")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ProductBrandId");
@@ -264,6 +267,75 @@ namespace EcAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ProductType");
+                });
+
+            modelBuilder.Entity("EcAPI.Entity.Vendor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("AccountNumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Active")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Branch")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("IFSC")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Mobile")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("VendorAddressId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VendorAddressId");
+
+                    b.ToTable("Vendors");
+                });
+
+            modelBuilder.Entity("EcAPI.Entity.VendorAddress", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("City")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("State")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Street")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("VendorId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ZipCode")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("VendorAddress");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -409,7 +481,9 @@ namespace EcAPI.Migrations
                 {
                     b.HasOne("EcAPI.Entity.OrderAggregrate.DeliveryMethod", "DeliveryMethod")
                         .WithMany()
-                        .HasForeignKey("DeliveryMethodId");
+                        .HasForeignKey("DeliveryMethodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.OwnsOne("EcAPI.Entity.OrderAggregrate.Address", "ShipToAddress", b1 =>
                         {
@@ -452,7 +526,8 @@ namespace EcAPI.Migrations
                     b.HasOne("EcAPI.Entity.OrderAggregrate.Order", null)
                         .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.OwnsOne("EcAPI.Entity.OrderAggregrate.ProductItmeOrdered", "ItmeOrdered", b1 =>
                         {
@@ -496,6 +571,15 @@ namespace EcAPI.Migrations
                     b.Navigation("ProductBrand");
 
                     b.Navigation("ProductType");
+                });
+
+            modelBuilder.Entity("EcAPI.Entity.Vendor", b =>
+                {
+                    b.HasOne("EcAPI.Entity.VendorAddress", "VendorAddress")
+                        .WithMany()
+                        .HasForeignKey("VendorAddressId");
+
+                    b.Navigation("VendorAddress");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
