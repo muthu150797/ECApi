@@ -23,6 +23,6 @@ namespace EcAPI.Entity
         public string State { get; set; }
         public string City { get; set; }
         public string ZipCode { get; set; }
-        public string VendorId { get; set; }
+        public int VendorId { get; set; }
     }
 }

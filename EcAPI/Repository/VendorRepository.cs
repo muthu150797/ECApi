@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EcAPI.Entity;
 using EcAPI.Interfaces;
+using EcAPI.Model;
 
 namespace EcAPI.Repository
 {
@@ -18,35 +19,31 @@ namespace EcAPI.Repository
 
         public dynamic AddOrUpdateVendor(Vendor vendorDetails)
         {
+           ResponseModel response = new ResponseModel();
             try
             {
-                var res = _context.Vendors.Add(new Vendor
+                if (vendorDetails.Id == 0)
                 {
-                    Name = vendorDetails.Name,
-                    Email = vendorDetails.Email,
-                    IFSC = vendorDetails.IFSC,
-                    Mobile = vendorDetails.Mobile,
-                    Active = 1,
-                    AccountNumber = vendorDetails.AccountNumber,
-                    Branch = vendorDetails.Branch,
-                    VendorAddress = new VendorAddress
-                    {
-                        FirstName = vendorDetails.VendorAddress.FirstName,
-                        LastName = vendorDetails.VendorAddress.LastName,
-                        City = vendorDetails.VendorAddress.City,
-                        Street = vendorDetails.VendorAddress.Street,
-                        State = vendorDetails.VendorAddress.State,
-                        ZipCode = vendorDetails.VendorAddress.ZipCode
-
-                    }
-                });
-                _context.SaveChanges();
+                    _context.Vendors.Add(vendorDetails);
+                    _context.SaveChanges();
+                    response.StatusCode = 200;
+                    response.Message = "The Vendor added successfully";
+                }
+                else
+                {
+                    var entity = _context.Vendors.FirstOrDefault(x => x.Id == vendorDetails.Id);
+                    entity.Name = vendorDetails.Name;
+                    _context.SaveChanges();
+                    response.StatusCode = 200;
+                    response.Message = "The Vendor updated successfully";
+                }
             }
             catch (Exception ex)
             {
-                return 400;
+                response.StatusCode = 400;
+                response.Message = ex.ToString();
             }
-            return 200;
+            return response;
         }
     }
 }

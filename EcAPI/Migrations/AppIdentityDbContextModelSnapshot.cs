@@ -227,8 +227,8 @@ namespace EcAPI.Migrations
                     b.Property<int>("ProductTypeId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("VendorId")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("VendorId")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -294,12 +294,7 @@ namespace EcAPI.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("VendorAddressId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("VendorAddressId");
 
                     b.ToTable("Vendors");
                 });
@@ -325,13 +320,16 @@ namespace EcAPI.Migrations
                     b.Property<string>("Street")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("VendorId")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("VendorId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("ZipCode")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("VendorId")
+                        .IsUnique();
 
                     b.ToTable("VendorAddress");
                 });
@@ -571,13 +569,13 @@ namespace EcAPI.Migrations
                     b.Navigation("ProductType");
                 });
 
-            modelBuilder.Entity("EcAPI.Entity.Vendor", b =>
+            modelBuilder.Entity("EcAPI.Entity.VendorAddress", b =>
                 {
-                    b.HasOne("EcAPI.Entity.VendorAddress", "VendorAddress")
-                        .WithMany()
-                        .HasForeignKey("VendorAddressId");
-
-                    b.Navigation("VendorAddress");
+                    b.HasOne("EcAPI.Entity.Vendor", null)
+                        .WithOne("VendorAddress")
+                        .HasForeignKey("EcAPI.Entity.VendorAddress", "VendorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -639,6 +637,11 @@ namespace EcAPI.Migrations
             modelBuilder.Entity("EcAPI.Entity.OrderAggregrate.Order", b =>
                 {
                     b.Navigation("OrderItems");
+                });
+
+            modelBuilder.Entity("EcAPI.Entity.Vendor", b =>
+                {
+                    b.Navigation("VendorAddress");
                 });
 #pragma warning restore 612, 618
         }

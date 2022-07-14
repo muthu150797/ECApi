@@ -278,6 +278,7 @@ namespace EcAPI.Repository
                         entity.Price = item.Price;
                         entity.Description = item.Description;
                         entity.PictureUrl = item.PictureUrl;
+                        entity.VendorId=item.VendorId;
                         entity.ProductBrandId = item.ProductBrandId;
                         entity.ProductTypeId = item.ProductTypeId;
                         response.StatusCode = 200;

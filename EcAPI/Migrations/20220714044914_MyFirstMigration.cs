@@ -93,22 +93,22 @@ namespace EcAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "VendorAddress",
+                name: "Vendors",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    FirstName = table.Column<string>(type: "TEXT", nullable: true),
-                    LastName = table.Column<string>(type: "TEXT", nullable: true),
-                    Street = table.Column<string>(type: "TEXT", nullable: true),
-                    State = table.Column<string>(type: "TEXT", nullable: true),
-                    City = table.Column<string>(type: "TEXT", nullable: true),
-                    ZipCode = table.Column<string>(type: "TEXT", nullable: true),
-                    VendorId = table.Column<string>(type: "TEXT", nullable: true)
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    Email = table.Column<string>(type: "TEXT", nullable: true),
+                    Active = table.Column<int>(type: "INTEGER", nullable: false),
+                    AccountNumber = table.Column<string>(type: "TEXT", nullable: true),
+                    IFSC = table.Column<string>(type: "TEXT", nullable: true),
+                    Branch = table.Column<string>(type: "TEXT", nullable: true),
+                    Mobile = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_VendorAddress", x => x.Id);
+                    table.PrimaryKey("PK_Vendors", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -282,7 +282,7 @@ namespace EcAPI.Migrations
                     Name = table.Column<string>(type: "TEXT", nullable: true),
                     Price = table.Column<double>(type: "REAL", nullable: false),
                     PictureUrl = table.Column<string>(type: "TEXT", nullable: true),
-                    VendorId = table.Column<string>(type: "TEXT", nullable: true),
+                    VendorId = table.Column<int>(type: "INTEGER", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
                     ProductTypeId = table.Column<int>(type: "INTEGER", nullable: false),
                     ProductBrandId = table.Column<int>(type: "INTEGER", nullable: false)
@@ -305,28 +305,28 @@ namespace EcAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Vendors",
+                name: "VendorAddress",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: true),
-                    Email = table.Column<string>(type: "TEXT", nullable: true),
-                    Active = table.Column<int>(type: "INTEGER", nullable: false),
-                    AccountNumber = table.Column<string>(type: "TEXT", nullable: true),
-                    IFSC = table.Column<string>(type: "TEXT", nullable: true),
-                    Branch = table.Column<string>(type: "TEXT", nullable: true),
-                    Mobile = table.Column<string>(type: "TEXT", nullable: true),
-                    VendorAddressId = table.Column<int>(type: "INTEGER", nullable: true)
+                    FirstName = table.Column<string>(type: "TEXT", nullable: true),
+                    LastName = table.Column<string>(type: "TEXT", nullable: true),
+                    Street = table.Column<string>(type: "TEXT", nullable: true),
+                    State = table.Column<string>(type: "TEXT", nullable: true),
+                    City = table.Column<string>(type: "TEXT", nullable: true),
+                    ZipCode = table.Column<string>(type: "TEXT", nullable: true),
+                    VendorId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Vendors", x => x.Id);
+                    table.PrimaryKey("PK_VendorAddress", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Vendors_VendorAddress_VendorAddressId",
-                        column: x => x.VendorAddressId,
-                        principalTable: "VendorAddress",
-                        principalColumn: "Id");
+                        name: "FK_VendorAddress_Vendors_VendorId",
+                        column: x => x.VendorId,
+                        principalTable: "Vendors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -417,9 +417,10 @@ namespace EcAPI.Migrations
                 column: "ProductTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Vendors_VendorAddressId",
-                table: "Vendors",
-                column: "VendorAddressId");
+                name: "IX_VendorAddress_VendorId",
+                table: "VendorAddress",
+                column: "VendorId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -449,7 +450,7 @@ namespace EcAPI.Migrations
                 name: "Products");
 
             migrationBuilder.DropTable(
-                name: "Vendors");
+                name: "VendorAddress");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -467,7 +468,7 @@ namespace EcAPI.Migrations
                 name: "ProductType");
 
             migrationBuilder.DropTable(
-                name: "VendorAddress");
+                name: "Vendors");
 
             migrationBuilder.DropTable(
                 name: "DeliveryMethods");
