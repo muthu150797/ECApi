@@ -20,6 +20,8 @@ namespace EcAPI.Entity
         public DbSet<Address> Address { get; set; }
         public DbSet<DeliveryMethod> DeliveryMethods { get; set; }
         public DbSet<Vendor> Vendors { get; set; }
+         public DbSet<VendorAddress> VendorAddress { get; set; }
+
         public AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options) : base(options)
         {
 

@@ -9,7 +9,7 @@ namespace EcAPI.Entity
     {
         public string Name { get; set; }
         public string Email { get; set; }
-        public int Active { get; set; }
+        public int Active { get; set; }=1;
         public string AccountNumber { get; set; }
         public string IFSC { get; set; }
         public string Branch { get; set; }

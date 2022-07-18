@@ -27,6 +27,11 @@ namespace EcAPI.Controllers
         {
             return _vendorRepos.AddOrUpdateVendor(vendorDetails);
         }
-       
+       [HttpPost]
+        [Route("GetAllVendors")]
+        public dynamic GetAllVendors()
+        {
+            return _vendorRepos.GetAllVendors();
+        }
     }
 }

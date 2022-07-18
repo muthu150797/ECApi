@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EcAPI.Migrations
 {
     [DbContext(typeof(AppIdentityDbContext))]
-    [Migration("20220714044914_MyFirstMigration")]
+    [Migration("20220718060555_MyFirstMigration")]
     partial class MyFirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

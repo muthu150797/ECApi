@@ -9,5 +9,7 @@ namespace EcAPI.Interfaces
     public interface IVendorRepository
     {
         public dynamic AddOrUpdateVendor(Vendor vendorDetails);
+        public dynamic GetAllVendors();
+        
     }
 }
